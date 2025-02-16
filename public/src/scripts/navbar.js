@@ -1,5 +1,3 @@
-import { parseConfiguration } from "./jsonParser.js"
-
 export function navBarComponent(parentElement) {
     let config;
     let bool;
@@ -19,14 +17,17 @@ export function navBarComponent(parentElement) {
     }
 
     return {
-        build: (path) => {
-            return new Promise((resolve, reject) => {
-                return parseConfiguration(path).then(c => {
-                    config = c;
-                    bool = false;
-                    resolve("ok");
-                }).catch(reject);
-            })
+        build: async () => {
+            try{
+                const c = await fetch("/config");
+                config = await c.json();
+                console.log(config)
+                bool = false;
+                return "Ok"
+            }
+            catch(e){
+                throw e;
+            }
         },
         render: () => {
             let newNavBar = `<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

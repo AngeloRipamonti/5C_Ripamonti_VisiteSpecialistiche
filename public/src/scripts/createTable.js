@@ -1,6 +1,5 @@
-import moment from "../../node_modules/moment/dist/moment.js"
+import moment from "/node_modules/moment/dist/moment.js"
 import { generateFetchComponent } from "./fetchCache.js"
-import { parseConfiguration } from "./jsonParser.js";
 
 export const createTable = (parentElement) => {
   let availabilities = {};
@@ -29,7 +28,7 @@ export const createTable = (parentElement) => {
       currentWeekOffset = offset ?? 0;
       fetchComp.getData().then((resp) => {
         console.log(resp);
-        availabilities = JSON.parse(resp);
+        availabilities = resp;
         const weekDates = getWeekDates(currentWeekOffset);
 
         let headerRow = `<tr><th class="px-6 py-3">Ora</th>`;
@@ -67,18 +66,16 @@ export const createTable = (parentElement) => {
 </div>`;
     },
 
-    buildTable: () => {
-      return new Promise((resolve, reject) => {
+    buildTable: async () => {
+      try{
         fetchComp = generateFetchComponent();
-        fetchComp.build("../../config.json").then(() => {
-          return parseConfiguration("../../config.json")
-            .then((parsedConfig) => {
-              config = parsedConfig;
-              resolve("ok")
-            });
-        }).catch(reject)
-      });
-
+        const parsedConfig = await fetch("/config")
+        config = await parsedConfig.json();
+        return "Ok";
+      }
+      catch(e){
+        throw e;
+      }
     }
   };
 };

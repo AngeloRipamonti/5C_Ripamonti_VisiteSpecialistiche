@@ -1,5 +1,3 @@
-import { parseConfiguration } from "./jsonParser.js";
-
 export function createForm(parentElement) {
     let data = [];
     let callback = null;
@@ -63,10 +61,14 @@ export function createForm(parentElement) {
     };
 };
 
-function getJson() {
-    return new Promise((resolve, reject) => {
-        return parseConfiguration("../../config.json").then((parsedConfig) => { resolve(parsedConfig) }).catch(reject);
-    })
+async function getJson() {
+    try{
+        const parsedConfig = await fetch("/config");
+        return await parsedConfig.json();
+    }
+    catch(e){
+        throw e;
+    }
 }
 
 function generateOptions() {
