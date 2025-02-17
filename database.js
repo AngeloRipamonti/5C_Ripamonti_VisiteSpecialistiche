@@ -42,13 +42,20 @@ module.exports = function databaseClient(config, service) {
             let sql = `INSERT IGNORE INTO reservation (data, ora, cliente, type) VALUES ('${data.data}', ${data.ora}, '${data.cliente}', '${data.type}');`;
             return await executeQuery(sql);
         },
-        select: async function () {
+        selectAll: async function () {
             let sql = `SELECT data, ora, cliente, type FROM reservation;`;
             const results = await executeQuery(sql);
             let data = {};
-            results.forEach(e => {console.log(e.data); data[(`${e.type}-${String(new Date(e.data).getUTCDate()).padStart(2, '0')}${String(new Date(e.data).getUTCMonth() + 1).padStart(2, '0')}${new Date(e.data).getUTCFullYear()}-${e.ora}`)] = e.cliente});
-            console.log(data);
+            console.log(results);
+            results.forEach(e => {data[(`${e.type}-${String(new Date(e.data).getUTCDate()).padStart(2, '0')}${String(new Date(e.data).getUTCMonth() + 1).padStart(2, '0')}${new Date(e.data).getUTCFullYear()}-${e.ora}`)] = e.cliente});
             return data;
         },
+        select: async function (f) { 
+            let sql =  `SELECT data, ora, cliente, type FROM reservation WHERE data='${f}';`
+            const e = (await executeQuery(sql))[0];
+            let data = {};
+            data[(`${e.type}-${String(new Date(e.data).getUTCDate()).padStart(2, '0')}${String(new Date(e.data).getUTCMonth() + 1).padStart(2, '0')}${new Date(e.data).getUTCFullYear()}-${e.ora}`)] = e.cliente;
+            return data ? data : undefined;
+        }
     }
 }

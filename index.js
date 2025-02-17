@@ -7,8 +7,8 @@ const databaseClient = require("./database.js");
 const config = JSON.parse(fs.readFileSync('configuration.json'));
 config.ssl.ca = fs.readFileSync(__dirname + '/ca.pem');
 const app = express();
-const trafficPolice = databaseClient(config, (JSON.parse(fs.readFileSync("config.json"))).tipologie);
-/*trafficPolice.insert({
+const booking = databaseClient(config, (JSON.parse(fs.readFileSync("config.json"))).tipologie);
+/*booking.insert({
     data: "2025/02/18",
     ora: 9,
     cliente:"Luca Avveduto",
@@ -22,13 +22,20 @@ app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 
 app.post("/add", async (req, res) => {
     const data = req.body;
-    await trafficPolice.insert(data);
+    await booking.insert(data);
     res.json({ result: "Ok" });   
 });
 
 app.get("/get", async (req, res) => {
-    const dict = await trafficPolice.select();
+    const dict = await booking.selectAll();
     res.json({ result: dict });
+});
+
+app.post("/filter", async (req, res) => {
+    const data = req.body.value;
+    const dict = await booking.select(data);
+    if(dict) res.json({ result: dict });
+    else res.json({ error: "Not found"});
 });
 
 

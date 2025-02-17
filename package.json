@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "npm install -y && npx tailwindcss -i ./public/src/input.css -o ./public/src/output.css",
-    "start": "npm run build && node index.js"
+    "start": "npm run build && node index.js",
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",

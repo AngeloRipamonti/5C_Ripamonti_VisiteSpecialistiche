@@ -63,8 +63,10 @@ export function createForm(parentElement) {
 
 async function getJson() {
     try{
-        const parsedConfig = await fetch("/config");
-        return await parsedConfig.json();
+        return {
+            "tipologie": ["Cardiologia", "Psicologia", "Oncologia", "Ortopedia", "Neurologia"],
+            "hours": [8,9,10,11,12]
+                }
     }
     catch(e){
         throw e;

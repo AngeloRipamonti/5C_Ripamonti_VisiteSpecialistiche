@@ -65,15 +65,18 @@ export const createTable = (parentElement) => {
   </div>
 </div>`;
     },
-
     buildTable: async () => {
-      try{
+      try {
         fetchComp = generateFetchComponent();
-        const parsedConfig = await fetch("/config")
-        config = await parsedConfig.json();
+        //const parsedConfig = await fetch("/config")
+        //config = await parsedConfig.json();
+        config = {
+          "tipologie": ["Cardiologia", "Psicologia", "Oncologia", "Ortopedia", "Neurologia"],
+          "hours": [8, 9, 10, 11, 12]
+        };
         return "Ok";
       }
-      catch(e){
+      catch (e) {
         throw e;
       }
     }

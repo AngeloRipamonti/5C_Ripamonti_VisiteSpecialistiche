@@ -19,9 +19,13 @@ export function navBarComponent(parentElement) {
     return {
         build: async () => {
             try{
-                const c = await fetch("/config");
-                config = await c.json();
-                console.log(config)
+                //const c = await fetch("/config");
+                //config = await c.json();
+                //console.log(config)
+                config =  {
+                    "tipologie": ["Cardiologia", "Psicologia", "Oncologia", "Ortopedia", "Neurologia"],
+                    "hours": [8,9,10,11,12]
+                        };
                 bool = false;
                 return "Ok"
             }
