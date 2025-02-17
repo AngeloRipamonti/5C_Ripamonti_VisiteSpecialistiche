@@ -50,12 +50,5 @@ module.exports = function databaseClient(config, service) {
             results.forEach(e => {data[(`${e.type}-${String(new Date(e.data).getUTCDate()).padStart(2, '0')}${String(new Date(e.data).getUTCMonth() + 1).padStart(2, '0')}${new Date(e.data).getUTCFullYear()}-${e.ora}`)] = e.cliente});
             return data;
         },
-        select: async function (f) { 
-            let sql =  `SELECT data, ora, cliente, type FROM reservation WHERE data='${f}';`
-            const e = (await executeQuery(sql))[0];
-            let data = {};
-            data[(`${e.type}-${String(new Date(e.data).getUTCDate()).padStart(2, '0')}${String(new Date(e.data).getUTCMonth() + 1).padStart(2, '0')}${new Date(e.data).getUTCFullYear()}-${e.ora}`)] = e.cliente;
-            return data ? data : undefined;
-        }
     }
 }

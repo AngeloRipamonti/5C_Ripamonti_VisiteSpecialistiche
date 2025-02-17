@@ -31,14 +31,6 @@ app.get("/get", async (req, res) => {
     res.json({ result: dict });
 });
 
-app.post("/filter", async (req, res) => {
-    const data = req.body.value;
-    const dict = await booking.select(data);
-    if(dict) res.json({ result: dict });
-    else res.json({ error: "Not found"});
-});
-
-
 app.get("/config", async (req, res) => {
     const config = JSON.parse(fs.readFileSync('config.json'));
     res.json(config);

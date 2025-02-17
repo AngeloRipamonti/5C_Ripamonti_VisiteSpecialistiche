@@ -22,21 +22,5 @@ export function generateFetchComponent() {
                     .catch(err => reject(err.result));
             })
         },
-        getFilter: async (f) => {
-            try{
-                const r = await fetch("/filter", {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify({value: f})
-                });
-                const data = await r.json();
-                return data.result;
-            }
-            catch(e){
-                throw e;
-            }
-        }
     };
 }
